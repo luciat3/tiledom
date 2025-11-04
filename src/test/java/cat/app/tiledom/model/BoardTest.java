@@ -255,7 +255,7 @@ public class BoardTest {
         //comprovem les exteriors (lliures)
         assertTrue(board.tryMatch(0, 1, 0, 4));
         //comprovem peces buides
-        assertTrue(board.tryMatch(0, 0, 0, 5));
+        assertFalse(board.tryMatch(0, 0, 0, 5));
 
         int[][] tiles3 = {
             {0, 2, 1, 1, 3, 0}
@@ -263,7 +263,7 @@ public class BoardTest {
         board.setTiles(tiles3);
 
         //comprovem peces diferents
-        assertTrue(board.tryMatch(0, 1, 0, 4));
+        assertFalse(board.tryMatch(0, 1, 0, 4));
     }
 
     @Test

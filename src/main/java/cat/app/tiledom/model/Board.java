@@ -42,6 +42,7 @@ public class Board {
 
     public void setTiles(int[][] tiles) {
         this.tiles = tiles;
+        this.size = tiles.length;
     }
 
     public void setTiles(int size, int numTipus, int numPeces){
@@ -93,7 +94,7 @@ public class Board {
     private boolean isSideFree(int i, int j) {
         // si és fora del taulell també és lliure
         boolean leftFree  = (j - 1 < 0) || tiles[i][j - 1] == 0;
-        boolean rightFree = (j + 1 >= size) || tiles[i][j + 1] == 0;
+        boolean rightFree = (j + 1 >= tiles[i].length) || tiles[i][j + 1] == 0;
         return leftFree || rightFree;
     }
 
@@ -131,7 +132,7 @@ public class Board {
                 }
             }
         }
-        return false; // no se encontró ninguna pareja válida
+        return false; 
     }
 
 }
