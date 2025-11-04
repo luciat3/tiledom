@@ -5,12 +5,12 @@ public class Board {
     // extraiem el generador per poder aplicar el mock als tests
     private RandomTileGenerator genRandom;
 
-    public Board() {}
+    public Board() { throw new IllegalArgumentException("Falten variables per inicialitzar el taulell"); }
     // funció que inicialitzi el taulell d'una mida variable segons la dificultat i les peces col·locades aleatòriament
-    public Board(int dificultat, RandomTileGenerator mockGen) {
+    public Board(int dificultat, RandomTileGenerator gen) {
         if (dificultat < 1 || dificultat > 3) throw new IllegalArgumentException("Dificultat fora de rang (1–3)");
 
-        this.genRandom = mockGen;
+        this.genRandom = gen;
 
         int numTipus = 0, numPeces = 0;
         // mida i peces segons dificultat
