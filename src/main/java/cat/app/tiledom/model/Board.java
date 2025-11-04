@@ -12,7 +12,7 @@ public class Board {
 
         this.genRandom = mockGen;
 
-        int numTipus, numPeces = 0;
+        int numTipus = 0, numPeces = 0;
         // mida i peces segons dificultat
         switch (dificultat) {
             case 1 -> {size = 8; numTipus = 5; numPeces = 40;}
@@ -20,7 +20,20 @@ public class Board {
             case 3 -> {size = 12; numTipus = 10; numPeces = 90;}
         }
         tiles = new int[size][size];
+        setTiles(size, numTipus, numPeces);
 
+
+    }
+
+    public int getSize(){
+        return size;
+    }
+
+    public int[][] getTiles(){
+        return tiles;
+    }
+
+    public void setTiles(int size, int numTipus, int numPeces){
         int side = (int) Math.ceil(Math.sqrt(numPeces)); // costat mínim que pot contenir totes les peces
 
         // Calculem l'offset per centrar el bloc
@@ -34,21 +47,14 @@ public class Board {
                 // només col·loca peces si la posició està dins del bloc central
                 // i una petita probabilitat extra si és al voltant
                 boolean insideCenter = i >= start && i < end && j >= start && j < end;
-                if (insideCenter || (genRandom.genera() % 5 == 0)) {
-                    tiles[i][j] = genRandom.genera();
+                if (insideCenter || (Math.random() % 5 == 0)) { 
+                    int value = genRandom.genera();
+                    tiles[i][j] = value;
                     placed++;
                 }
+
             }
         }
-
-    }
-
-    public int getSize(){
-        return size;
-    }
-
-    public int[][] getTiles(){
-        return tiles;
     }
     
     //mida segons nivell de dificultat -> generarà un taulell tiles[size][size]

@@ -10,10 +10,18 @@ public class BoardTest {
     Board tauler;
     RandomTileGenerator mockGen = new RandomTileGenerator();
 
+    // funció necessària per externalitzar el funcionament del random mentre no l'implementem
+    private void configurarMock(int maxType) {
+        java.util.concurrent.atomic.AtomicInteger counter = new java.util.concurrent.atomic.AtomicInteger(0);
+        when(mockGen.genera()).thenAnswer(inv -> ((counter.getAndIncrement() / 2) % maxType) + 1);
+    }
+
+    
     @BeforeEach
     void setUp() {
         // Mock object de RandomTileGenerator
         mockGen = mock(RandomTileGenerator.class);
+        when(mockGen.genera()).thenReturn(1);
     }
 
     //Test per comprovar que la mida es correcte
@@ -121,6 +129,7 @@ public class BoardTest {
     void testBoardHasEvenTiles(){
 
         // -------------------Prova taulell senzill-------------------
+        configurarMock(5);
         Board board_easy = new Board(1, mockGen);
         int[] count = countTiles(board_easy, 5);
         // - Només hi ha 40 peces
@@ -139,6 +148,7 @@ public class BoardTest {
         assertTrue(parells);
 
         // -------------------Prova taulell intermig-------------------
+        configurarMock(7);
         Board board_medium = new Board(2, mockGen);
         count = countTiles(board_medium, 7);
         // - Només hi ha 60 peces
@@ -157,6 +167,7 @@ public class BoardTest {
         assertTrue(parells);
 
         // -------------------Prova taulell difícil-------------------
+        configurarMock(10);
         Board board_hard = new Board(3, mockGen);
         count = countTiles(board_hard, 10);
         // - Només hi ha 60 peces
@@ -184,20 +195,32 @@ public class BoardTest {
 
         for (int i=0; i<size; i++){
             for (int j=0; j<size; j++) {
-                if (tiles[i][j] > 0) {
-                    // Si hi ha més tipus de peces dels esperats dona error
-                    if (tiles[i][j] > typeCount) {
-                        fail("S'ha detectat una peça amb tipus fora de rang: " + tiles[i][j]);
-                    }
-                     types[0]++;
-                     types[tiles[i][j]]++;
-                } else { // Si hi ha un tipus de peça negatiu dona error
+                int v = tiles[i][j];
+
+                if (v < 0) {
                     fail("S'ha detectat una peça amb valor negatiu");
                 }
+                if (v == 0) {
+                    continue; // ignorem casella buida
+                }
+                if (v > typeCount) {
+                    fail("S'ha detectat una peça amb tipus fora de rang: " + v);
+                }
+                types[0]++;
+                types[v]++;
             }
         }
 
         return types;
+    }
+
+    private int expectedPiecesForSize(int size) {
+        return switch (size) {
+            case 8  -> 40;
+            case 10 -> 60;
+            case 12 -> 90;
+            default -> throw new IllegalArgumentException("Mida desconeguda: " + size);
+        };
     }
 
     @Test
@@ -207,8 +230,23 @@ public class BoardTest {
         Board board = new Board(1, mockGen);
 
         // Verifiquem que s'ha fet servir el mock les vegades correctes
-        verify(mockGen, atLeast(board.getSize() * board.getSize())).genera();
+        int expected = expectedPiecesForSize(board.getSize());
+        verify(mockGen, atLeast(expected)).genera();
         assertEquals(5, board.getTiles()[0][0]);
     }
+
+    //auxiliar per trobar errors
+    private void printBoard(Board board) {
+        System.out.println("Taulell " + board.getSize() + "x" + board.getSize() + ":");
+        int[][] tiles = board.getTiles();
+        for (int i = 0; i < board.getSize(); i++) {
+            for (int j = 0; j < board.getSize(); j++) {
+                System.out.print(String.format("%2d ", tiles[i][j]));
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
 
 }
