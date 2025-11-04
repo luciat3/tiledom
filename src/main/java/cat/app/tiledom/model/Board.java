@@ -74,17 +74,64 @@ public class Board {
     // que no siguin posicions lliures
     // i si les dues són del mateix tipus
     public boolean tryMatch(int x1, int y1, int x2, int y2) {
-        return false;
+        // son buides
+        if (tiles[x1][y1] == 0 || tiles[x2][y2] == 0) return false;
+        // son de diferent tipus
+        if (tiles[x1][y1] != tiles[x2][y2]) return false;
+        
+        // tenen al menys un costat buit
+        boolean firstFree = isSideFree(x1, y1);
+        boolean secondFree = isSideFree(x2, y2);
+        if (!(firstFree && secondFree)) return false;
+
+        tiles[x1][y1] = 0;
+        tiles[x2][y2] = 0;
+        return true;
+    }
+
+    // Funció auxiliar per comprovar si tenen un costat buit
+    private boolean isSideFree(int i, int j) {
+        // si és fora del taulell també és lliure
+        boolean leftFree  = (j - 1 < 0) || tiles[i][j - 1] == 0;
+        boolean rightFree = (j + 1 >= size) || tiles[i][j + 1] == 0;
+        return leftFree || rightFree;
     }
 
     // Comprova si queden peces al taulell
     public boolean isEmpty() {
-        return false;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (tiles[i][j] != 0) return false;
+            }
+        }
+        return true;
     }
     
     // Comprova si queden moviments disponibles al taulell
     public boolean hasAvailableMoves() {
-        return false;
+
+        //recorrem tot el taulell
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                int current = tiles[i][j];
+                //ignorem les buides
+                if (current == 0) continue;
+
+                //seleccionem les peces amb costats lliures
+                if (isSideFree(i, j)) {
+                    //busquem si hi ha una del mateix tipus amb costat lliure
+                    for (int x = 0; x < size; x++) {
+                        for (int y = 0; y < size; y++) {
+                            if ((x == i && y == j) || tiles[x][y] == 0) continue;
+                            if (tiles[x][y] == current && isSideFree(x, y)) {
+                                return true; //hi ha al menys una jugada disponible
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false; // no se encontró ninguna pareja válida
     }
 
 }
