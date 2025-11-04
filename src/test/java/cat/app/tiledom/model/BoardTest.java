@@ -235,6 +235,80 @@ public class BoardTest {
         assertEquals(5, board.getTiles()[0][0]);
     }
 
+    // ----------- Tests per funcions derivades de Game Session ------------
+    @Test
+    void testTryMatch() {
+        Board board = new Board(1, mockGen);
+        int[][] tiles = {
+            {2, 1, 1, 2}
+        };
+        board.setTiles(tiles);
+        //comprovem les del mig (bloquejades)
+        assertFalse(board.tryMatch(0,1,0,2)); 
+        //comprovem les exteriors (al borde)
+        assertTrue(board.tryMatch(0, 0, 0, 3));
+
+        int[][] tiles2 = {
+            {0, 2, 1, 1, 2, 0}
+        };
+        board.setTiles(tiles2);
+        //comprovem les exteriors (lliures)
+        assertTrue(board.tryMatch(0, 1, 0, 4));
+        //comprovem peces buides
+        assertTrue(board.tryMatch(0, 0, 0, 5));
+
+        int[][] tiles3 = {
+            {0, 2, 1, 1, 3, 0}
+        };
+        board.setTiles(tiles3);
+
+        //comprovem peces diferents
+        assertTrue(board.tryMatch(0, 1, 0, 4));
+    }
+
+    @Test
+    void testIsEmpty() {
+        Board board = new Board(1, mockGen);
+        int size = board.getSize();
+        int[][] tiles = new int[size][size];
+
+        //taulell buit
+        board.setTiles(tiles);
+        assertTrue(board.isEmpty());
+
+        //taulell amb una sola peça
+        tiles[2][3] = 1;
+        board.setTiles(tiles);
+        assertFalse(board.isEmpty());
+
+        //eliminem manualment la peça
+        tiles[2][3] = 0;
+        board.setTiles(tiles);
+        assertTrue(board.isEmpty());
+    }
+
+    @Test
+    void testHasAvailableMoves() {
+        Board board = new Board(1, mockGen);
+
+        int[][] tiles = {
+            {1, 1, 0},
+            {0, 0, 0},
+            {0, 0, 0}
+        };
+        board.setTiles(tiles);
+
+        assertTrue(board.hasAvailableMoves());
+
+        //canviem la peça de la primera posició
+        tiles[0][0] = 2;
+        board.setTiles(tiles);
+
+        assertFalse(board.hasAvailableMoves());
+    }
+
+
+    // --------------------------------------------------------------------------------------------
     //auxiliar per trobar errors
     private void printBoard(Board board) {
         System.out.println("Taulell " + board.getSize() + "x" + board.getSize() + ":");

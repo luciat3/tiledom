@@ -40,6 +40,10 @@ public class Board {
         return tiles;
     }
 
+    public void setTiles(int[][] tiles) {
+        this.tiles = tiles;
+    }
+
     public void setTiles(int size, int numTipus, int numPeces){
         int side = (int) Math.ceil(Math.sqrt(numPeces)); // costat mínim que pot contenir totes les peces
 
@@ -66,13 +70,21 @@ public class Board {
 
     // ------------------ Funcions Game Session -----------------------------
 
+    // Comprova si les peces seleccionades tenen al menys un lateral lliure
+    // que no siguin posicions lliures
+    // i si les dues són del mateix tipus
     public boolean tryMatch(int x1, int y1, int x2, int y2) {
         return false;
     }
 
+    // Comprova si queden peces al taulell
     public boolean isEmpty() {
         return false;
     }
     
+    // Comprova si queden moviments disponibles al taulell
+    public boolean hasAvailableMoves() {
+        return false;
+    }
 
 }
