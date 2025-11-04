@@ -5,6 +5,13 @@ public class Board {
     // extraiem el generador per poder aplicar el mock als tests
     private RandomTileGenerator genRandom;
 
+    //mida segons nivell de dificultat -> generarà un taulell tiles[size][size]
+    private int size;
+    //valor 0 -> no hi ha peça 
+    //valors 1-10 -> diferents tipus de peces
+    private int tiles[][];
+
+    // --------------------- Funcions inicialització taulell -----------------------------
     public Board() { throw new IllegalArgumentException("Falten variables per inicialitzar el taulell"); }
     // funció que inicialitzi el taulell d'una mida variable segons la dificultat i les peces col·locades aleatòriament
     public Board(int dificultat, RandomTileGenerator gen) {
@@ -56,10 +63,16 @@ public class Board {
             }
         }
     }
+
+    // ------------------ Funcions Game Session -----------------------------
+
+    public boolean tryMatch(int x1, int y1, int x2, int y2) {
+        return false;
+    }
+
+    public boolean isEmpty() {
+        return false;
+    }
     
-    //mida segons nivell de dificultat -> generarà un taulell tiles[size][size]
-    private int size;
-    //valor 0 -> no hi ha peça 
-    //valors 1-10 -> diferents tipus de peces
-    private int tiles[][];
+
 }

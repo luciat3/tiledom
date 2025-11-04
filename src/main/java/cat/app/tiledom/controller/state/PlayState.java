@@ -1,5 +1,6 @@
 package cat.app.tiledom.controller.state;
 
+import cat.app.tiledom.model.Board;
 import cat.app.tiledom.model.GameSession;
 import cat.app.tiledom.GUI.AudioManager;
 import cat.app.tiledom.GUI.UIManager;
@@ -62,5 +63,8 @@ public class PlayState implements GameState {
     @Override
     public GameState start() {
         return this;
+    }
+
+    public void handleMove(int x1, int y1, int x2, int y2) {
     }
 }
