@@ -66,5 +66,29 @@ public class PlayState implements GameState {
     }
 
     public void handleMove(int x1, int y1, int x2, int y2) {
+        Board board = _game_session.getBoard();
+
+        //comprovem si es poden eliminar les fitxes seleccionades
+        boolean matched = board.tryMatch(x1, y1, x2, y2);
+
+        if (matched) {
+            //si s'eliminen, augmentem la puntuació
+            _game_session.addScore(100);
+            
+            //si el taulell queda buit -> victòria
+            if (board.isEmpty()) {
+                _ui.showDialog("level_completed");
+                _game_session.nextLevel();
+            }
+            //si no queden moviments -> derrota
+            else if (!board.hasAvailableMoves()) {
+                _audio.stopMusic();
+                _ui.showDialog("no_moves_left");
+                _audio.startMusic("game_over");
+            }
+        } else {
+            //si les fitxes seleccionades no son correctes, so d'error
+            _audio.startMusic("error_sound");
+        }
     }
 }
