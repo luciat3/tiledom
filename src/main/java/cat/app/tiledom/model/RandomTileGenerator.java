@@ -47,12 +47,15 @@ public class RandomTileGenerator {
         for (int i = 1; i <= numTipus; i++) {
             int variation = (rand.nextInt(3) - 1) * 2; //-2, 0, 2
             int count = base + variation;
+
+            if (count % 2 != 0) count++;
+
             if ((assigned + count) <= totalPieces ) {
                 pieces[i] = count;
                 assigned += count;
             } else {
-                pieces[i] = totalPieces - count;
-                assigned = assigned + (totalPieces - count);
+                pieces[i] = totalPieces - assigned;
+                assigned = assigned + (totalPieces - assigned);
             }
         }
 
