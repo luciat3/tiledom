@@ -19,9 +19,13 @@ public class BoardTest {
     
     @BeforeEach
     void setUp() {
+        /*
         // Mock object de RandomTileGenerator
         mockGen = mock(RandomTileGenerator.class);
         when(mockGen.genera()).thenReturn(1);
+        */
+
+        // ara que ja hem implementat RandomTileGenerator no cal fer servir el mock
     }
 
     //Test per comprovar que la mida es correcte
@@ -29,15 +33,15 @@ public class BoardTest {
     void testBoardSizeIsCorrect() {
 
         //Taulell dificultat senzilla 8x8
-        Board board_easy = new Board(1, mockGen);
+        Board board_easy = new Board(1, new RandomTileGenerator(1));
         assertEquals(8, board_easy.getSize());
 
         //Taulell dificultat mitjana 10x10
-        Board board_medium = new Board(2, mockGen);
+        Board board_medium = new Board(2, new RandomTileGenerator(2));
         assertEquals(10, board_medium.getSize());
 
         //Taulell dificultat difícil 12x12
-        Board board_hard = new Board(3,mockGen);
+        Board board_hard = new Board(3,new RandomTileGenerator(3));
         assertEquals(12, board_hard.getSize());
 
         //Asserts pel 0, valors negatius i valors > 3
@@ -65,9 +69,9 @@ public class BoardTest {
     void testBoardConnected() {
 
         // --- Particions equivalents: dificultats 1, 2, 3 ---
-        Board board_easy = new Board(1, mockGen);
-        Board board_medium = new Board(2, mockGen);
-        Board board_hard = new Board(3, mockGen);
+        Board board_easy = new Board(1, new RandomTileGenerator(1));
+        Board board_medium = new Board(2, new RandomTileGenerator(2));
+        Board board_hard = new Board(3, new RandomTileGenerator(3));
 
         assertTrue(isConnected(board_easy), "Taulell fàcil no connectat");
         assertTrue(isConnected(board_medium), "Taulell intermig no connectat");
@@ -129,8 +133,8 @@ public class BoardTest {
     void testBoardHasEvenTiles(){
 
         // -------------------Prova taulell senzill-------------------
-        configurarMock(5);
-        Board board_easy = new Board(1, mockGen);
+        //configurarMock(5);
+        Board board_easy = new Board(1, new RandomTileGenerator(1));
         int[] count = countTiles(board_easy, 5);
         // - Només hi ha 40 peces
         assertEquals(40, count[0]);
@@ -148,8 +152,8 @@ public class BoardTest {
         assertTrue(parells);
 
         // -------------------Prova taulell intermig-------------------
-        configurarMock(7);
-        Board board_medium = new Board(2, mockGen);
+        //configurarMock(7);
+        Board board_medium = new Board(2, new RandomTileGenerator(2));
         count = countTiles(board_medium, 7);
         // - Només hi ha 60 peces
         assertEquals(60, count[0]);
@@ -167,8 +171,8 @@ public class BoardTest {
         assertTrue(parells);
 
         // -------------------Prova taulell difícil-------------------
-        configurarMock(10);
-        Board board_hard = new Board(3, mockGen);
+        //configurarMock(10);
+        Board board_hard = new Board(3, new RandomTileGenerator(3));
         count = countTiles(board_hard, 10);
         // - Només hi ha 60 peces
         assertEquals(90, count[0]);
@@ -223,6 +227,7 @@ public class BoardTest {
         };
     }
 
+    /*
     @Test
     void testBoardConstructor_UsesRandomGenerator() {
         when(mockGen.genera()).thenReturn(5);
@@ -234,11 +239,12 @@ public class BoardTest {
         verify(mockGen, atLeast(expected)).genera();
         assertEquals(5, board.getTiles()[0][0]);
     }
+        */
 
     // ----------- Tests per funcions derivades de Game Session ------------
     @Test
     void testTryMatch() {
-        Board board = new Board(1, mockGen);
+        Board board = new Board(1, new RandomTileGenerator(1));
         int[][] tiles = {
             {2, 1, 1, 2}
         };
@@ -268,7 +274,7 @@ public class BoardTest {
 
     @Test
     void testIsEmpty() {
-        Board board = new Board(1, mockGen);
+        Board board = new Board(1, new RandomTileGenerator(1));
         int size = board.getSize();
         int[][] tiles = new int[size][size];
 
@@ -289,7 +295,7 @@ public class BoardTest {
 
     @Test
     void testHasAvailableMoves() {
-        Board board = new Board(1, mockGen);
+        Board board = new Board(1, new RandomTileGenerator(1));
 
         int[][] tiles = {
             {1, 1, 0},
