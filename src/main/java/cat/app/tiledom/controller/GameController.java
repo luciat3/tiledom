@@ -42,21 +42,27 @@ public class GameController {
     void handleClick(int x, int y) {
         if (firstSelection == null) {
             firstSelection = new int[]{x, y};
-            panel.getButton(x, y).setBackground(java.awt.Color.CYAN);
+            if (panel != null && panel.getButton(x, y) != null) {
+                panel.getButton(x, y).setBackground(java.awt.Color.CYAN);
+            }
         } else {
             int x1 = firstSelection[0], y1 = firstSelection[1];
-            if (board.tryMatch(x1, y1, x, y)) {
+            boolean validMove = board.tryMatch(x1, y1, x, y);
+            if (validMove) {
                 JOptionPane.showMessageDialog(null, "Parella eliminada!");
             } else {
                 JOptionPane.showMessageDialog(null, "Moviment invàlid!");
             }
             firstSelection = null;
-            panel.updateBoard();
-
-            if (board.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Has guanyat!");
-            } else if (!board.hasAvailableMoves()) {
-                JOptionPane.showMessageDialog(null, "No queden moviments. Fi de la partida.");
+            if (panel != null) {
+                panel.updateBoard();
+            }
+            if (validMove){
+                if (board.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Has guanyat!");
+                } else if (!board.hasAvailableMoves()) {
+                    JOptionPane.showMessageDialog(null, "No queden moviments. Fi de la partida.");
+                }
             }
         }
     }
