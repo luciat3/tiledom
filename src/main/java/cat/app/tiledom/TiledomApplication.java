@@ -26,7 +26,7 @@ public class TiledomApplication {
         }
 
         // Creem un generador real
-        RandomTileGenerator gen = new RandomTileGenerator();
+        RandomTileGenerator gen = new RandomTileGenerator(dificultat);
 
         // Creem un taulell de dificultat 1 (fàcil)
         Board board = new Board(dificultat, gen);
