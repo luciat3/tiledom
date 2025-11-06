@@ -1,11 +1,16 @@
 package cat.app.tiledom;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
-import cat.app.tiledom.model.Board;
-import cat.app.tiledom.model.RandomTileGenerator;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import cat.app.tiledom.GUI.GameWindow;
+//import cat.app.tiledom.model.Board;
+//import cat.app.tiledom.model.RandomTileGenerator;
 
 public class TiledomApplication {
+    /*
     public static void main(String[] args) {
         
         Scanner sc = new Scanner(System.in);
@@ -77,5 +82,13 @@ public class TiledomApplication {
         }
         System.out.println();
     }
-
+*/
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            String input = JOptionPane.showInputDialog(
+                    "Selecciona dificultat (1 = fàcil, 2 = mitjana, 3 = difícil):");
+            int dificultat = Integer.parseInt(input);
+            new GameWindow(dificultat);
+        });
+    }
 }
