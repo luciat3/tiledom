@@ -37,7 +37,10 @@ public class TiledomApplication {
         // Bucle de joc
         while (!board.isEmpty() && board.hasAvailableMoves()) {
             System.out.print("Selecciona dues peces (x1 y1 x2 y2): ");
-            int x1 = sc.nextInt(), y1 = sc.nextInt(), x2 = sc.nextInt(), y2 = sc.nextInt();
+            int x1 = sc.nextInt() - 1; 
+            int y1 = sc.nextInt() - 1;
+            int x2 = sc.nextInt() - 1;
+            int y2 = sc.nextInt() - 1;
 
             if (board.tryMatch(x1, y1, x2, y2)) {
                 System.out.println("Parella eliminada!");
@@ -56,11 +59,23 @@ public class TiledomApplication {
     }
     private static void printBoard(Board board) {
         int[][] tiles = board.getTiles();
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                System.out.print(tiles[i][j] + " ");
+        int size = board.getSize();
+
+        System.out.print("    ");
+        for (int j = 0; j < size; j++) {
+            System.out.printf("%3d", j + 1);
+        }
+        System.out.println("\n   " + "-".repeat(size * 3));
+
+        for (int i = 0; i < size; i++) {
+            System.out.printf("%2d |", i + 1);
+            for (int j = 0; j < size; j++) {
+                if (tiles[i][j] == 0) System.out.print("  .");
+                else System.out.printf("%3d", tiles[i][j]);
             }
             System.out.println();
         }
+        System.out.println();
     }
+
 }
