@@ -48,7 +48,7 @@ public class GameControllerTest {
         when(mockBoard.tryMatch(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(true);
         controller.handleClick(0, 1);
 
-        verify(mockBoard, times(1)).tryMatch(0, 0, 0, 1);
+        verify(mockState, times(1)).handleMove(0, 0, 0, 1);
         verify(mockPanel, times(1)).updateBoard();
     }
 
@@ -60,7 +60,7 @@ public class GameControllerTest {
         when(mockBoard.tryMatch(anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(false);
         controller.handleClick(0, 1);
 
-        verify(mockBoard, times(1)).tryMatch(0, 0, 0, 1);
+        verify(mockState, times(1)).handleMove(0, 0, 0, 1);
 
         // comprova que es reinicia la selecció
         var field = GameController.class.getDeclaredField("firstSelection");
@@ -78,7 +78,7 @@ public class GameControllerTest {
 
         controller.handleClick(0, 1);
 
-        verify(mockBoard).tryMatch(0, 0, 0, 1);
+        verify(mockState, times(1)).handleMove(0, 0, 0, 1);
         verify(mockPanel).updateBoard();
     }
 
@@ -93,7 +93,7 @@ public class GameControllerTest {
 
         controller.handleClick(0, 1);
 
-        verify(mockBoard).tryMatch(0, 0, 0, 1);
+        verify(mockState, times(1)).handleMove(0, 0, 0, 1);
         verify(mockPanel).updateBoard();
     }
 }
