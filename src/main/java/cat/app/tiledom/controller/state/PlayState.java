@@ -74,6 +74,7 @@ public class PlayState implements GameState {
         if (matched) {
             //si s'eliminen, augmentem la puntuació
             _game_session.addScore(100);
+            _ui.updateScore(_game_session.getScore());
             
             //si el taulell queda buit -> victòria
             if (board.isEmpty()) {
@@ -89,6 +90,7 @@ public class PlayState implements GameState {
         } else {
             //si les fitxes seleccionades no son correctes, so d'error
             _audio.startMusic("error_sound");
+            _ui.showDialog("invalid_move");
         }
     }
 }

@@ -2,6 +2,7 @@ package cat.app.tiledom.controller;
 
 
 import cat.app.tiledom.GUI.BoardPanel;
+import cat.app.tiledom.controller.state.PlayState;
 import cat.app.tiledom.model.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,12 +18,14 @@ public class GameControllerTest {
     private Board mockBoard;
     private BoardPanel mockPanel;
     private GameController controller;
+    private PlayState mockState;
 
     @BeforeEach
     void setUp() {
         mockBoard = mock(Board.class);
         mockPanel = mock(BoardPanel.class);
-        controller = new GameController(mockBoard, mockPanel);
+        mockState = mock(PlayState.class);
+        controller = new GameController(mockBoard, mockPanel, mockState);
     }
 
     @Test

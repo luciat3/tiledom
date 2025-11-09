@@ -5,17 +5,21 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import cat.app.tiledom.model.Board;
 
 public class BoardPanel extends JPanel {
     private JButton[][] buttons;
     private Board board;
     private Map<Integer, ImageIcon> tileIcons = new HashMap<>();
+    private JLabel scoreLabel;
+    private JPanel gridPanel;
 
     public BoardPanel(Board board) {
         this.board = board;
         int size = board.getSize();
-        setLayout(new GridLayout(size, size));
+        setLayout(new BorderLayout());
+        gridPanel = new JPanel(new GridLayout(size, size));
         buttons = new JButton[size][size];
         loadIcons();
 
@@ -25,9 +29,16 @@ public class BoardPanel extends JPanel {
                 btn.setFont(new Font("Arial", Font.BOLD, 14));
                 updateButton(btn, board.getTiles()[i][j]);
                 buttons[i][j] = btn;
-                add(btn);
+                gridPanel.add(btn);
             }
         }
+
+        scoreLabel = new JLabel("Puntuació: 0");
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        add(scoreLabel, BorderLayout.NORTH);
+        add(gridPanel, BorderLayout.CENTER);
     }
 
     public void updateBoard() {
@@ -50,6 +61,10 @@ public class BoardPanel extends JPanel {
             btn.setText("");
             btn.setBackground(Color.WHITE);
         }
+    }
+
+    public void updateScore(int score) {
+        scoreLabel.setText("Puntuació: " + score);
     }
 
     public JButton getButton(int i, int j) {

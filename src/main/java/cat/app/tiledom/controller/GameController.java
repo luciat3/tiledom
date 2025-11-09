@@ -4,6 +4,7 @@ package cat.app.tiledom.controller;
 import javax.swing.JOptionPane;
 
 import cat.app.tiledom.GUI.BoardPanel;
+import cat.app.tiledom.controller.state.PlayState;
 import cat.app.tiledom.model.Board;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +14,13 @@ public class GameController {
     
     private Board board;
     private BoardPanel panel;
+     private PlayState playState;
     private int[] firstSelection = null;
 
-    public GameController(Board board, BoardPanel panel) {
+    public GameController(Board board, BoardPanel panel, PlayState playState) {
         this.board = board;
         this.panel = panel;
+        this.playState = playState;
         addListeners();
     }
 
@@ -47,23 +50,10 @@ public class GameController {
             }
         } else {
             int x1 = firstSelection[0], y1 = firstSelection[1];
-            boolean validMove = board.tryMatch(x1, y1, x, y);
-            if (validMove) {
-                JOptionPane.showMessageDialog(null, "Parella eliminada!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Moviment invàlid!");
-            }
+            playState.handleMove(x1, y1, x, y);
+
             firstSelection = null;
-            if (panel != null) {
-                panel.updateBoard();
-            }
-            if (validMove){
-                if (board.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Has guanyat!");
-                } else if (!board.hasAvailableMoves()) {
-                    JOptionPane.showMessageDialog(null, "No queden moviments. Fi de la partida.");
-                }
-            }
+            panel.updateBoard();
         }
     }
 
