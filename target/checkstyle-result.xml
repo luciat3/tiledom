@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\controller\GameController.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\controller\state\ConfigureState.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\controller\state\GameState.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\controller\state\InitState.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\controller\state\PauseState.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\controller\state\PlayState.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\GUI\AudioManager.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\GUI\BoardPanel.java">
+<error line="80" severity="error" message="La línea es mayor de 100 caracteres (encontrado 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\GUI\GameWindow.java">
+<error line="52" severity="error" message="La línea es mayor de 100 caracteres (encontrado 113)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\GUI\ImplementedAudioManager.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\GUI\UIManager.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\model\Board.java">
+<error line="15" severity="error" message="La línea es mayor de 100 caracteres (encontrado 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="16" severity="error" message="La línea es mayor de 100 caracteres (encontrado 119)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="18" severity="error" message="La línea es mayor de 100 caracteres (encontrado 114)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="49" severity="error" message="La línea es mayor de 100 caracteres (encontrado 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\model\GameSession.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\model\RandomTileGenerator.java">
+</file>
+<file name="C:\Users\lucia\OneDrive\Documentos\tiledom\src\main\java\cat\app\tiledom\TiledomApplication.java">
+</file>
+</checkstyle>
