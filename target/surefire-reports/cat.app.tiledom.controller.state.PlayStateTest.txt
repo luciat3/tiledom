@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: cat.app.tiledom.controller.state.PlayStateTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.057 s -- in cat.app.tiledom.controller.state.PlayStateTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.090 s -- in cat.app.tiledom.controller.state.PlayStateTest

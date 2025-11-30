@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">practiques-tqs</a> &gt; <a href="index.source.html" class="el_package">cat.app.tiledom.GUI</a> &gt; <span class="el_source">GameWindow.java</span></div><h1>GameWindow.java</h1><pre class="source lang-java linenums">package cat.app.tiledom.GUI;
+
+import cat.app.tiledom.model.Board;
+import cat.app.tiledom.model.GameSession;
+import cat.app.tiledom.model.RandomTileGenerator;
+import cat.app.tiledom.controller.GameController;
+import cat.app.tiledom.controller.state.PlayState;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class GameWindow extends JFrame implements UIManager {
+    private Board board;
+    private BoardPanel boardPanel;
+    private GameSession gameSession;
+    private AudioManager audioManager;
+    private PlayState playState;
+    private GameController controller;
+
+<span class="nc" id="L20">    public GameWindow(int dificultat) {</span>
+<span class="nc" id="L21">        setTitle(&quot;Tiledom&quot;);</span>
+<span class="nc" id="L22">        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L23">        setLayout(new BorderLayout());</span>
+
+        // Model
+<span class="nc" id="L26">        RandomTileGenerator gen = new RandomTileGenerator(dificultat);</span>
+<span class="nc" id="L27">        board = new Board(dificultat, gen);</span>
+<span class="nc" id="L28">        gameSession = new GameSession();</span>
+<span class="nc" id="L29">        gameSession.setBoard(board);</span>
+        // Vista
+<span class="nc" id="L31">        boardPanel = new BoardPanel(board);</span>
+<span class="nc" id="L32">        audioManager = new ImplementedAudioManager();</span>
+
+        // Controlador
+<span class="nc" id="L35">        playState = new PlayState(audioManager, this, gameSession);</span>
+<span class="nc" id="L36">        controller = new GameController(board, boardPanel, playState);</span>
+
+
+<span class="nc" id="L39">        add(boardPanel, BorderLayout.CENTER);</span>
+
+<span class="nc" id="L41">        pack();</span>
+<span class="nc" id="L42">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L43">        setVisible(true);</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    public void showScreen(String screenName) {
+<span class="nc" id="L48">    }</span>
+
+    @Override
+    public boolean showDialog(String message) {
+<span class="nc" id="L52">        JOptionPane.showMessageDialog(this, getDialogText(message), &quot;Missatge&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L53">        return true;</span>
+    }
+
+    private String getDialogText(String key) {
+<span class="nc bnc" id="L57" title="All 5 branches missed.">        switch (key) {</span>
+            case &quot;level_completed&quot;:
+<span class="nc" id="L59">                return &quot;Has completat el nivell!&quot;;</span>
+            case &quot;no_moves_left&quot;:
+<span class="nc" id="L61">                return &quot;No queden moviments possibles!&quot;;</span>
+            case &quot;invalid_move&quot;:
+<span class="nc" id="L63">                return &quot;Aquestes peces no es poden eliminar!&quot;;</span>
+            case &quot;exiting&quot;:
+<span class="nc" id="L65">                return &quot;Vols sortir del joc?&quot;;</span>
+            default:
+<span class="nc" id="L67">                return key;</span>
+        }
+    }
+
+
+    @Override
+    public void updateScore(int score) {
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (boardPanel != null) {</span>
+<span class="nc" id="L75">            boardPanel.updateScore(score);</span>
+        }
+<span class="nc" id="L77">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
