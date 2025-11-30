@@ -79,6 +79,8 @@ public class Board {
         if (tiles[x1][y1] == 0 || tiles[x2][y2] == 0) return false;
         // son de diferent tipus
         if (tiles[x1][y1] != tiles[x2][y2]) return false;
+        // és la mateixa peça
+        if (x1 == x2 && y1 == y2) return false;
         
         // tenen al menys un costat buit
         boolean firstFree = isSideFree(x1, y1);
