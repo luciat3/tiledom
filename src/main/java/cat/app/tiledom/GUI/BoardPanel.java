@@ -77,7 +77,8 @@ public class BoardPanel extends JPanel {
         java.net.URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(
-                new ImageIcon(imgURL).getImage().getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)
+                new ImageIcon(imgURL).getImage().getScaledInstance(48,
+                     48, java.awt.Image.SCALE_SMOOTH)
             );
             tileIcons.put(i, icon);
         } else {

@@ -12,10 +12,14 @@ public class Board {
     private int tiles[][];
 
     // --------------------- Funcions inicialització taulell -----------------------------
-    public Board() { throw new IllegalArgumentException("Falten variables per inicialitzar el taulell"); }
-    // funció que inicialitzi el taulell d'una mida variable segons la dificultat i les peces col·locades aleatòriament
+    public Board() { 
+        throw new IllegalArgumentException("Falten variables per inicialitzar el taulell"); 
+    }
+    // funció que inicialitzi el taulell d'una mida variable 
+    // segons la dificultat i les peces col·locades aleatòriament
     public Board(int dificultat, RandomTileGenerator gen) {
-        if (dificultat < 1 || dificultat > 3) throw new IllegalArgumentException("Dificultat fora de rang (1–3)");
+        if (dificultat < 1 || dificultat > 3) 
+            throw new IllegalArgumentException("Dificultat fora de rang (1–3)");
 
         this.genRandom = gen;
 
@@ -46,7 +50,8 @@ public class Board {
     }
 
     public void setTiles(int size, int numTipus, int numPeces){
-        int side = (int) Math.ceil(Math.sqrt(numPeces)); // costat mínim que pot contenir totes les peces
+        // costat mínim que pot contenir totes les peces
+        int side = (int) Math.ceil(Math.sqrt(numPeces)); 
 
         // Calculem l'offset per centrar el bloc
         int start = (size - side) / 2;
