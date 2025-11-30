@@ -49,7 +49,14 @@ public class RandomTileGenerator {
         }
         int assigned = 0;
 
-        // distribuim amb aleatorietat
+        // arreglem el cas en que no s'arribin a afegir tots els tipus
+        for (int i = 1; i <= numTipus; i++) {
+            pieces[i] = base;
+            assigned += base;
+        }
+
+        /*
+        // distribuim amb aleatorietat les peces sobrants
         for (int i = 1; i <= numTipus; i++) {
             int variation = (rand.nextInt(3) - 1) * 2; //-2, 0, 2
             int count = base + variation;
@@ -63,7 +70,7 @@ public class RandomTileGenerator {
                 pieces[i] = totalPieces - assigned;
                 assigned = assigned + (totalPieces - assigned);
             }
-        }
+        }*/
 
         // ajustem si han quedat peces sense assignar
         while (assigned < totalPieces) {

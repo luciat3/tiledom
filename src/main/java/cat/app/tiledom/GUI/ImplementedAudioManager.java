@@ -23,7 +23,7 @@ public class ImplementedAudioManager implements AudioManager {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundURL);
             currentClip = AudioSystem.getClip();
             currentClip.open(audioStream);
-            currentClip.loop(Clip.LOOP_CONTINUOUSLY);
+            //currentClip.loop(Clip.LOOP_CONTINUOUSLY);
             currentClip.start();
 
             System.out.println("Reproduint: " + track);
