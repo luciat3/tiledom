@@ -36,9 +36,107 @@ class RandomTileGeneratorTest {
         gen = new RandomTileGenerator(); 
     }
 
+    // -- Tests pel constructor segons dificultat --
+    /*
+    - Particions:
+        1- dificultat == 1 -> frontera
+        2- dificultat == 2 -> interior i interior a frontera
+        3- dificultat == 3 -> frontera
+        4- dificultat == 0 -> IllegalArgument exterior a frontera
+        5- dificultat == 4 -> IllegalArgument exterior a frontera
+        6- dificultat < 1 -> IllegalArgument
+        7- dificultat > 3 -> IllegalArgument
+    */
+
+    @Test
+    void testConstructor() {
+        // dificultat senzilla -> 5 tipus, 40 peces
+        RandomTileGenerator easy = new RandomTileGenerator(1);
+        assertEquals(5, easy.getNumTipus());
+        assertEquals(40, easy.remainingPieces());
+
+        // dificultat intermèdia -> 7 tipus, 60 peces
+        RandomTileGenerator medium = new RandomTileGenerator(2);
+        assertEquals(7, medium.getNumTipus());
+        assertEquals(60, medium.remainingPieces());
+
+        // dificultat difícil -> 10 tipus, 90 peces
+        RandomTileGenerator hard = new RandomTileGenerator(3);
+        assertEquals(10, hard.getNumTipus());
+        assertEquals(90, hard.remainingPieces());
+
+        // fronteres a l'exterior
+        assertThrows(IllegalArgumentException.class,
+                () -> new RandomTileGenerator(0)); // dificultat == 0
+        assertThrows(IllegalArgumentException.class,
+                () -> new RandomTileGenerator(4));   // dificultat == 4
+
+        // interiors de particions invàlides
+        assertThrows(IllegalArgumentException.class,
+                () -> new RandomTileGenerator(-5)); // dificultat < 1
+        assertThrows(IllegalArgumentException.class,
+                () -> new RandomTileGenerator(10)); // dificultat > 3
+    }
+
+    // -- Tests per setNumTipus --
+    /*
+    - Particions:
+        1- setNumTipus == 5 -> 40 peces
+        2- setNumTipus == 7 -> 60 peces
+        3- setNumTipus == 10 -> 90 peces
+        4- 1 <= numTipus < 5 -> IllegalArgument exterior a frontera
+        5- 5 < numTipus < 7 -> IllegalArgument exterior a frontera
+        6- setNumTipus <= 0 -> IllegalArgument exterior a frontera
+        7- 7 < numTipus < 10 -> IllegalArgument
+        8- setNumTipus > 10 -> IllegalArgument
+    */
+
+    @Test
+    void testSetNumTipus() {
+        // numTipus == 5
+        gen.setNumTipus(5);
+        assertEquals(5, gen.getNumTipus());
+        assertEquals(40, gen.remainingPieces());
+
+        // numTipus == 7
+        gen.setNumTipus(7);
+        assertEquals(7, gen.getNumTipus());
+        assertEquals(60, gen.remainingPieces());
+
+        // numTipus == 10
+        gen.setNumTipus(10);
+        assertEquals(10, gen.getNumTipus());
+        assertEquals(90, gen.remainingPieces());
+
+        // numTipus <= 0
+        assertThrows(IllegalArgumentException.class,
+                () -> gen.setNumTipus(0));     // frontera 0
+        assertThrows(IllegalArgumentException.class,
+                () -> gen.setNumTipus(-3));    // interior < 0
+
+        // 1 <= numTipus < 5
+        assertThrows(IllegalArgumentException.class,
+                () -> gen.setNumTipus(4));     // just abans de 5
+
+        // 5 < numTipus < 7
+        assertThrows(IllegalArgumentException.class,
+                () -> gen.setNumTipus(6));     // entre 5 i 7
+
+        // 7 < numTipus < 10
+        assertThrows(IllegalArgumentException.class,
+                () -> gen.setNumTipus(8));     // entre 7 i 10
+
+        // numTipus > 10
+        assertThrows(IllegalArgumentException.class,
+                () -> gen.setNumTipus(11));    // just després de 10
+        assertThrows(IllegalArgumentException.class,
+                () -> gen.setNumTipus(99));    // interior llunyà
+    }
+
+
+    // Comprovacions funció genera
     @Test
     void testGeneratesValuesWithinRange() {
-
         //comprovem que genera valors correctes pel taulell senzill
         gen.setNumTipus(5);
         for (int i = 0; i < 40; i++) {
