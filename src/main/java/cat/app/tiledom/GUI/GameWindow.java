@@ -49,7 +49,8 @@ public class GameWindow extends JFrame implements UIManager {
 
     @Override
     public boolean showDialog(String message) {
-        JOptionPane.showMessageDialog(this, getDialogText(message), "Missatge", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, getDialogText(message),
+         "Missatge", JOptionPane.INFORMATION_MESSAGE);
         return true;
     }
 
