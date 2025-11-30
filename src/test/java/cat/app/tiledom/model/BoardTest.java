@@ -273,6 +273,27 @@ public class BoardTest {
     }
 
     @Test
+    void testTryMatchFailsWhenSameTileSelected() {
+        //test per comprovar que una mateixa fitxa no s'elimini en seleccionar-la a si mateixa
+        Board board = new Board(1, new RandomTileGenerator(1));
+        int[][] tiles = {
+            {2, 1, 1, 2}
+        };
+        board.setTiles(tiles);
+
+        assertEquals(2, board.getTiles()[0][0]);
+
+        //intentem fer match de la peça amb ella mateixa
+        boolean matched = board.tryMatch(0, 0, 0, 0);
+
+        //el mètode ha de considerar-ho un moviment invàlid
+        assertFalse(matched);
+        //la peça no s'ha d'eliminar del taulell
+        assertEquals(2, board.getTiles()[0][0]);
+    }
+
+
+    @Test
     void testIsEmpty() {
         Board board = new Board(1, new RandomTileGenerator(1));
         int size = board.getSize();

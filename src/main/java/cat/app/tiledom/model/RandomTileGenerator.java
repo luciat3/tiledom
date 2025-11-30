@@ -41,6 +41,12 @@ public class RandomTileGenerator {
 
         // quantitat de peces per tipus sense aletorietat
         int base = totalPieces / numTipus;
+        if (base % 2 != 0) {
+            base--;                         // assegurem que és parell
+        }
+        if (base < 2) {
+            base = 2;                       // com a mínim 2 peces per tipus
+        }
         int assigned = 0;
 
         // distribuim amb aleatorietat
