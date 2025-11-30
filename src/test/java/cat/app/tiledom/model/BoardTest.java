@@ -28,6 +28,12 @@ public class BoardTest {
         // ara que ja hem implementat RandomTileGenerator no cal fer servir el mock
     }
 
+    //Test constructor sense paràmetres (inutilitzat)
+    @Test
+    void testDefaultConstructor() {
+        assertThrows(IllegalArgumentException.class, Board::new);
+    }    
+
     //Test per comprovar que la mida es correcte
     @Test
     void testBoardSizeIsCorrect() {
@@ -242,6 +248,19 @@ public class BoardTest {
         */
 
     // ----------- Tests per funcions derivades de Game Session ------------
+
+    // -- Tests TryMatch() --
+    /*
+    Comprovacions:
+        1- Peces sense cap costat lliure -> False
+        2- Peces al límit del taulell amb costats lliures -> True
+        3- Peces amb costats lliures per peces buides (0) -> True
+        4- Peces buides -> False
+        5- Peça buida i peça plena -> False
+        6- Peça plena i peça buida -> False
+
+        extra: als casos true comprova que s'hagin marcat correctament com a 0.
+    */
     @Test
     void testTryMatch() {
         Board board = new Board(1, new RandomTileGenerator(1));
@@ -253,6 +272,10 @@ public class BoardTest {
         assertFalse(board.tryMatch(0,1,0,2)); 
         //comprovem les exteriors (al borde)
         assertTrue(board.tryMatch(0, 0, 0, 3));
+        //comprovem que les hagi marcat a 0
+        int[][] taulell = board.getTiles();
+        assertEquals(0, taulell[0][0]);
+        assertEquals(0, taulell[0][3]);
 
         int[][] tiles2 = {
             {0, 2, 1, 1, 2, 0}
@@ -260,8 +283,19 @@ public class BoardTest {
         board.setTiles(tiles2);
         //comprovem les exteriors (lliures)
         assertTrue(board.tryMatch(0, 1, 0, 4));
+        //comprovem que les hagi posat a 0
+        taulell = board.getTiles();
+        assertEquals(0, taulell[0][1]);
+        assertEquals(0, taulell[0][4]);
         //comprovem peces buides
+        board.setTiles(tiles2);
         assertFalse(board.tryMatch(0, 0, 0, 5));
+        //peça buida i peça plena
+        board.setTiles(tiles2);
+        assertFalse(board.tryMatch(0, 0, 0, 1));
+        //peça plena i peça buida
+        board.setTiles(tiles2);
+        assertFalse(board.tryMatch(0, 1, 0, 5));
 
         int[][] tiles3 = {
             {0, 2, 1, 1, 3, 0}
@@ -292,6 +326,62 @@ public class BoardTest {
         assertEquals(2, board.getTiles()[0][0]);
     }
 
+    /*
+    TryMatch Pairwise:
+
+    Tenim tres factors dins la funció amb els que podem dissenyar un test pairwise:
+    1- Type: Les peces són del mateix tipus
+    2- FirstFree: La primera peça té (almenys) un costat lliure
+    3- SecondFree: La segona peça té (almenys) un costat lliure
+
+    Type | FirstFree | SecondFree | Resultat
+    ----------------------------------------
+      Sí |   Sí      |   Sí       |  True
+      Sí |   No      |   No       |  False
+      No |   Sí      |   No       |  False
+      No |   No      |   Sí       |  False
+    
+    */
+
+    @Test
+    void testTryMatchPairwise() {
+        // ---- Cas 1
+        Board board1 = new Board(1, new RandomTileGenerator(1));
+        int[][] tiles1 = {
+                {2, 0, 0, 2}
+        };
+        board1.setTiles(tiles1);
+
+        assertTrue(board1.tryMatch(0, 0, 0, 3));
+
+        // ---- Cas 2
+        Board board2 = new Board(1, new RandomTileGenerator(1));
+        int[][] tiles2 = {
+                {1, 2, 2, 1}
+        };
+        board2.setTiles(tiles2);
+
+        assertFalse(board2.tryMatch(0, 1, 0, 2));
+
+        // ---- Cas 3
+        Board board3 = new Board(1, new RandomTileGenerator(1));
+        int[][] tiles3 = {
+                {2, 1, 3, 3}
+        };
+        board3.setTiles(tiles3);
+
+        assertFalse(board3.tryMatch(0, 0, 0, 2));
+
+        // ---- Cas 4
+        Board board4 = new Board(1, new RandomTileGenerator(1));
+        int[][] tiles4 = {
+                {1, 1, 3, 2}
+        };
+        board4.setTiles(tiles4);
+
+        assertFalse(board4.tryMatch(0, 1, 0, 3));
+    }
+
 
     @Test
     void testIsEmpty() {
@@ -314,6 +404,14 @@ public class BoardTest {
         assertTrue(board.isEmpty());
     }
 
+    // -- Test hasAvailableMoves
+    /*
+    Comprovacions:
+        1. Taulell amb un moviment disponible -> True
+        2. Taulell amb peces però sense moviments disponibles -> False
+        3. Taulell buit -> False
+        4. Taulell amb una sola peça -> False
+    */
     @Test
     void testHasAvailableMoves() {
         Board board = new Board(1, new RandomTileGenerator(1));
@@ -329,6 +427,18 @@ public class BoardTest {
 
         //canviem la peça de la primera posició
         tiles[0][0] = 2;
+        board.setTiles(tiles);
+
+        assertFalse(board.hasAvailableMoves());
+
+        // taulell buit
+        int size = board.getSize();
+        int[][] empty = new int[size][size];
+
+        board.setTiles(empty);
+        assertFalse(board.hasAvailableMoves());
+
+        tiles[0][1] = 1; // una sola peça
         board.setTiles(tiles);
 
         assertFalse(board.hasAvailableMoves());

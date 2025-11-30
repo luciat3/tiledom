@@ -1,5 +1,7 @@
 package cat.app.tiledom.controller;
 
+import javax.swing.JButton;
+import java.awt.Color;
 
 import cat.app.tiledom.GUI.BoardPanel;
 import cat.app.tiledom.controller.state.PlayState;
@@ -67,6 +69,26 @@ public class GameControllerTest {
         field.setAccessible(true);
         assertNull(field.get(controller));
     }
+
+    @Test
+    void testFirstClickHighlightsButtonAndDoesNotTriggerMove() {
+        // mock extra de la vista: un botó concret del taulell
+        JButton mockButton = mock(JButton.class);
+        when(mockPanel.getButton(1, 1)).thenReturn(mockButton);
+
+        // fem el primer click a la casella (1,1)
+        controller.handleClick(1, 1);
+
+        // El controlador ha de remarcar el botó seleccionat
+        verify(mockButton, times(1)).setBackground(Color.CYAN);
+
+        // En el primer click encara no s'ha de fer cap moviment de joc
+        verify(mockState, never()).handleMove(anyInt(), anyInt(), anyInt(), anyInt());
+
+        // Tampoc s'ha d'actualitzar el taulell encara
+        verify(mockPanel, never()).updateBoard();
+    }
+
 
     @Test
     void testVictoria() {
