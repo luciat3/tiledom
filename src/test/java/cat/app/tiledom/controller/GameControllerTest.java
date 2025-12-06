@@ -2,6 +2,8 @@ package cat.app.tiledom.controller;
 
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import cat.app.tiledom.GUI.BoardPanel;
 import cat.app.tiledom.controller.state.PlayState;
@@ -21,12 +23,23 @@ public class GameControllerTest {
     private BoardPanel mockPanel;
     private GameController controller;
     private PlayState mockState;
+    private JButton[][] fakeButtons;
 
     @BeforeEach
     void setUp() {
         mockBoard = mock(Board.class);
         mockPanel = mock(BoardPanel.class);
         mockState = mock(PlayState.class);
+        //preparem un taulell 2x2 perquè addListeners realment recorri els bucles
+        when(mockBoard.getSize()).thenReturn(2);
+
+        fakeButtons = new JButton[2][2];
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                fakeButtons[i][j] = new JButton();
+                when(mockPanel.getButton(i, j)).thenReturn(fakeButtons[i][j]);
+            }
+        }
         controller = new GameController(mockBoard, mockPanel, mockState);
     }
 
@@ -118,4 +131,29 @@ public class GameControllerTest {
         verify(mockState, times(1)).handleMove(0, 0, 0, 1);
         verify(mockPanel).updateBoard();
     }
+
+    // ------------------ CAIXA BLANCA -------------------
+    @Test
+    void testActionPerformed_WhiteBox() throws Exception {
+
+        JButton button = fakeButtons[1][0];
+
+        ActionListener[] listeners = button.getActionListeners();
+        assertEquals(1, listeners.length, "El botó (1,0) ha de tenir un ActionListener afegit per addListeners");
+
+        // Disparem manualment el listener, simulant un clic de l’usuari
+        listeners[0].actionPerformed(
+            new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "testClick")
+        );
+
+        //Verifiquem que handleClick(row, col) s’ha executat
+        java.lang.reflect.Field firstSelField = GameController.class.getDeclaredField("firstSelection");
+        firstSelField.setAccessible(true);
+        int[] firstSelection = (int[]) firstSelField.get(controller);
+
+        assertNotNull(firstSelection, "Després del clic, firstSelection no ha de ser null");
+        assertEquals(1, firstSelection[0], "La fila guardada a firstSelection ha de ser 1");
+        assertEquals(0, firstSelection[1], "La columna guardada a firstSelection ha de ser 0");
+    }
+
 }

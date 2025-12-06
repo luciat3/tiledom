@@ -46,7 +46,6 @@ public class PlayState implements GameState {
         _audio.stopMusic();
         boolean restart = _ui.showDialog("restart");
         if (restart) {
-            _game_session.reset();
             _audio.startMusic("initial_track");
             _ui.showScreen("init");
             return new InitState(_audio, _ui, _game_session);
@@ -79,7 +78,6 @@ public class PlayState implements GameState {
             //si el taulell queda buit -> victòria
             if (board.isEmpty()) {
                 _ui.showDialog("level_completed");
-                _game_session.nextLevel();
             }
             //si no queden moviments -> derrota
             else if (!board.hasAvailableMoves()) {

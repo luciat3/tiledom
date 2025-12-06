@@ -3,6 +3,7 @@ package cat.app.tiledom.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.lang.reflect.Field;
 
 /* 
 El RandomTileGenerator hauria de:
@@ -234,6 +235,56 @@ class RandomTileGeneratorTest {
         }
     }
 
+    // ---------------------------- CAIXA BLANCA ------------------------------------
+
+    @Test
+    void testPreparePieces_BaseLessThanTwo_WhiteBox() throws Exception {
+        RandomTileGenerator gen = new RandomTileGenerator();
+
+        // Configurem un estat artificial: poques peces i molts tipus
+        Field numTipusField = RandomTileGenerator.class.getDeclaredField("numTipus");
+        Field totalPiecesField = RandomTileGenerator.class.getDeclaredField("totalPieces");
+        numTipusField.setAccessible(true);
+        totalPiecesField.setAccessible(true);
+
+        numTipusField.setInt(gen, 10);   
+        totalPiecesField.setInt(gen, 10);
+
+        // Executem preparePieces() per forçar if (base < 2) { base = 2; }
+        gen.preparePieces();
+
+        Field piecesField = RandomTileGenerator.class.getDeclaredField("pieces");
+        piecesField.setAccessible(true);
+        int[] pieces = (int[]) piecesField.get(gen);
+
+        for (int i = 1; i <= 10; i++) {
+            assertTrue(pieces[i] >= 2, 
+                "Cada tipus ha de tenir almenys 2 peces, però el tipus " + i + " en té " + pieces[i]);
+        }
+    }
+
+    @Test
+void testGeneraReturnsZeroWhenBagIsEmpty() {
+    // Usem el constructor amb dificultat per tenir la bossa preparada
+    RandomTileGenerator gen = new RandomTileGenerator(1); // fàcil: 40 peces
+
+    int total = gen.remainingPieces();
+    assertTrue(total > 0, "La bossa hauria de tenir peces al principi");
+
+    // Consumim totes les peces
+    for (int i = 0; i < total; i++) {
+        int val = gen.genera();
+        // mentre hi ha peces, el valor ha de ser un tipus vàlid
+        assertTrue(val >= 1 && val <= gen.getNumTipus());
+    }
+
+    // Ara la bossa ha d'estar buida
+    assertEquals(0, gen.remainingPieces(), "Després de consumir totes les peces, la bossa ha de quedar buida");
+
+    // Una crida extra a genera() ha de passar per bag.isEmpty() i retornar 0
+    int extra = gen.genera();
+    assertEquals(0, extra, "Quan la bossa està buida, genera() ha de retornar 0");
+}
 
 
 }

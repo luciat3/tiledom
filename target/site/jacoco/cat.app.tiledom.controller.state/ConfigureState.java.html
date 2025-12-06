@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConfigureState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">practiques-tqs</a> &gt; <a href="index.source.html" class="el_package">cat.app.tiledom.controller.state</a> &gt; <span class="el_source">ConfigureState.java</span></div><h1>ConfigureState.java</h1><pre class="source lang-java linenums">package cat.app.tiledom.controller.state;
+
+import cat.app.tiledom.model.GameSession;
+import cat.app.tiledom.GUI.AudioManager;
+import cat.app.tiledom.GUI.UIManager;
+
+public class ConfigureState implements GameState {
+    private final AudioManager _audio;
+    private final UIManager _ui;
+    private final GameSession _game_session;
+
+<span class="fc" id="L12">    public ConfigureState(AudioManager audio, UIManager ui, GameSession game_session) {</span>
+<span class="fc" id="L13">        _audio = audio;</span>
+<span class="fc" id="L14">        _ui = ui;</span>
+<span class="fc" id="L15">        _game_session = game_session;</span>
+<span class="fc" id="L16">    }</span>
+
+    @Override
+    public GameState start() {
+<span class="fc" id="L20">        return this;</span>
+    }
+
+    @Override
+    public GameState resume() {
+<span class="fc" id="L25">        _ui.showScreen(&quot;playing&quot;);</span>
+<span class="fc" id="L26">        _audio.startMusic(&quot;play_track&quot;);</span>
+<span class="fc" id="L27">        return new PlayState(_audio, _ui, _game_session);</span>
+    }
+
+    @Override
+    public GameState restart() {
+<span class="fc" id="L32">        return this;</span>
+    }
+
+    @Override
+    public GameState pause() {
+<span class="fc" id="L37">        return this;</span>
+    }
+
+    @Override
+    public GameState configure() {
+<span class="fc" id="L42">        return this;</span>
+    }
+
+    @Override
+    public GameState exit() {
+<span class="fc" id="L47">        return this;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

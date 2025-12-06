@@ -18,16 +18,6 @@ public class GameSession {
         _score += points;
     }
 
-    public void nextLevel() {
-        _level++;
-    }
-
-    public void reset() {
-        _score = 0;
-        _level = 1;
-    }
-
     public int getScore() { return _score; }
-    public int getLevel() { return _level; }
     public Board getBoard() { return _board; }
 }

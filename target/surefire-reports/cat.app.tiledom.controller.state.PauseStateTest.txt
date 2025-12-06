@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: cat.app.tiledom.controller.state.PauseStateTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in cat.app.tiledom.controller.state.PauseStateTest

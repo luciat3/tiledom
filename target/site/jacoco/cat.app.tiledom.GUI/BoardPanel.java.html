@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoardPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">practiques-tqs</a> &gt; <a href="index.source.html" class="el_package">cat.app.tiledom.GUI</a> &gt; <span class="el_source">BoardPanel.java</span></div><h1>BoardPanel.java</h1><pre class="source lang-java linenums">package cat.app.tiledom.GUI;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+
+
+import cat.app.tiledom.model.Board;
+
+public class BoardPanel extends JPanel {
+    private JButton[][] buttons;
+    private Board board;
+<span class="nc" id="L14">    private Map&lt;Integer, ImageIcon&gt; tileIcons = new HashMap&lt;&gt;();</span>
+    private JLabel scoreLabel;
+    private JPanel gridPanel;
+
+<span class="nc" id="L18">    public BoardPanel(Board board) {</span>
+<span class="nc" id="L19">        this.board = board;</span>
+<span class="nc" id="L20">        int size = board.getSize();</span>
+<span class="nc" id="L21">        setLayout(new BorderLayout());</span>
+<span class="nc" id="L22">        gridPanel = new JPanel(new GridLayout(size, size));</span>
+<span class="nc" id="L23">        buttons = new JButton[size][size];</span>
+<span class="nc" id="L24">        loadIcons();</span>
+
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            for (int j = 0; j &lt; size; j++) {</span>
+<span class="nc" id="L28">                JButton btn = new JButton();</span>
+<span class="nc" id="L29">                btn.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 14));</span>
+<span class="nc" id="L30">                updateButton(btn, board.getTiles()[i][j]);</span>
+<span class="nc" id="L31">                buttons[i][j] = btn;</span>
+<span class="nc" id="L32">                gridPanel.add(btn);</span>
+            }
+        }
+
+<span class="nc" id="L36">        scoreLabel = new JLabel(&quot;Puntuació: 0&quot;);</span>
+<span class="nc" id="L37">        scoreLabel.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 16));</span>
+<span class="nc" id="L38">        scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+
+<span class="nc" id="L40">        add(scoreLabel, BorderLayout.NORTH);</span>
+<span class="nc" id="L41">        add(gridPanel, BorderLayout.CENTER);</span>
+<span class="nc" id="L42">    }</span>
+
+    public void updateBoard() {
+<span class="nc" id="L45">        int[][] tiles = board.getTiles();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (int i = 0; i &lt; board.getSize(); i++) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            for (int j = 0; j &lt; board.getSize(); j++) {</span>
+<span class="nc" id="L48">                updateButton(buttons[i][j], tiles[i][j]);</span>
+            }
+        }
+<span class="nc" id="L51">        repaint();</span>
+<span class="nc" id="L52">    }</span>
+
+    private void updateButton(JButton btn, int value) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (value == 0) {</span>
+<span class="nc" id="L56">            btn.setIcon(null);</span>
+<span class="nc" id="L57">            btn.setText(&quot;&quot;);</span>
+<span class="nc" id="L58">            btn.setBackground(Color.LIGHT_GRAY);</span>
+        } else {
+<span class="nc" id="L60">            btn.setIcon(tileIcons.get(value));</span>
+<span class="nc" id="L61">            btn.setText(&quot;&quot;);</span>
+<span class="nc" id="L62">            btn.setBackground(Color.WHITE);</span>
+        }
+<span class="nc" id="L64">    }</span>
+
+    public void updateScore(int score) {
+<span class="nc" id="L67">        scoreLabel.setText(&quot;Puntuació: &quot; + score);</span>
+<span class="nc" id="L68">    }</span>
+
+    public JButton getButton(int i, int j) {
+<span class="nc" id="L71">        return buttons[i][j];</span>
+    }
+
+    private void loadIcons() {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">    for (int i = 1; i &lt;= 10; i++) {</span>
+<span class="nc" id="L76">        String path = &quot;/assets/tiles/tile_&quot; + i + &quot;.png&quot;;</span>
+<span class="nc" id="L77">        java.net.URL imgURL = getClass().getResource(path);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (imgURL != null) {</span>
+<span class="nc" id="L79">            ImageIcon icon = new ImageIcon(</span>
+<span class="nc" id="L80">                new ImageIcon(imgURL).getImage().getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)</span>
+            );
+<span class="nc" id="L82">            tileIcons.put(i, icon);</span>
+<span class="nc" id="L83">        } else {</span>
+<span class="nc" id="L84">            System.err.println(&quot;No s'ha trobat la imatge: &quot; + path);</span>
+        }
+    }
+<span class="nc" id="L87">}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
