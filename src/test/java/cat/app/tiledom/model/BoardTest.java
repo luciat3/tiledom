@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+
+
 public class BoardTest {
 
     Board tauler;
@@ -679,6 +683,25 @@ public class BoardTest {
         board.setTiles(c4);
         assertFalse(board.hasAvailableMoves(),
                 "Sense peces del mateix tipus i amb costats bloquejats, no hi ha d'haver moviments (A=false, B=false).");
+    }
+
+
+    // ------------------ AUTOMATITZACIÓ -------------------
+
+        @ParameterizedTest(name = "[{index}] tryMatch({0},{1})-({2},{3}) => {4}")
+        @CsvFileSource(resources = "/data/tryMatch-cases.csv", numLinesToSkip = 1)
+        void testTryMatch_DataDriven(int x1, int y1, int x2, int y2, boolean expected) {
+        Board board = new Board(1, new RandomTileGenerator(1));
+        int[][] tiles = {
+            {2, 1, 1, 2},
+            {0, 0, 0, 0}
+        };
+        board.setTiles(tiles);
+
+        boolean result = board.tryMatch(x1, y1, x2, y2);
+
+        assertEquals(expected, result,
+            "Resultat inesperat per a la parella (" + x1 + "," + y1 + ")-(" + x2 + "," + y2 + ")");
     }
 
 }

@@ -1,0 +1,5 @@
+x1,y1,x2,y2,expected
+0,0,0,3,true
+0,1,0,2,false
+0,1,0,1,false
+0,0,1,0,false

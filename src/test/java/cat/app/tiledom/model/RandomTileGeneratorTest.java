@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.lang.reflect.Field;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+
+
 /* 
 El RandomTileGenerator hauria de:
 
@@ -264,27 +268,39 @@ class RandomTileGeneratorTest {
     }
 
     @Test
-void testGeneraReturnsZeroWhenBagIsEmpty() {
-    // Usem el constructor amb dificultat per tenir la bossa preparada
-    RandomTileGenerator gen = new RandomTileGenerator(1); // fàcil: 40 peces
+    void testGeneraReturnsZeroWhenBagIsEmpty() {
+        // Usem el constructor amb dificultat per tenir la bossa preparada
+        RandomTileGenerator gen = new RandomTileGenerator(1); // fàcil: 40 peces
 
-    int total = gen.remainingPieces();
-    assertTrue(total > 0, "La bossa hauria de tenir peces al principi");
+        int total = gen.remainingPieces();
+        assertTrue(total > 0, "La bossa hauria de tenir peces al principi");
 
-    // Consumim totes les peces
-    for (int i = 0; i < total; i++) {
-        int val = gen.genera();
-        // mentre hi ha peces, el valor ha de ser un tipus vàlid
-        assertTrue(val >= 1 && val <= gen.getNumTipus());
+        // Consumim totes les peces
+        for (int i = 0; i < total; i++) {
+            int val = gen.genera();
+            // mentre hi ha peces, el valor ha de ser un tipus vàlid
+            assertTrue(val >= 1 && val <= gen.getNumTipus());
+        }
+
+        // Ara la bossa ha d'estar buida
+        assertEquals(0, gen.remainingPieces(), "Després de consumir totes les peces, la bossa ha de quedar buida");
+
+        // Una crida extra a genera() ha de passar per bag.isEmpty() i retornar 0
+        int extra = gen.genera();
+        assertEquals(0, extra, "Quan la bossa està buida, genera() ha de retornar 0");
     }
 
-    // Ara la bossa ha d'estar buida
-    assertEquals(0, gen.remainingPieces(), "Després de consumir totes les peces, la bossa ha de quedar buida");
+    // ------------------------ AUTOMATITZACIÓ --------------------------------
 
-    // Una crida extra a genera() ha de passar per bag.isEmpty() i retornar 0
-    int extra = gen.genera();
-    assertEquals(0, extra, "Quan la bossa està buida, genera() ha de retornar 0");
-}
+    @ParameterizedTest(name = "[{index}] dificultat={0} => numTipus={1}, peces={2}")
+    @CsvFileSource(resources = "/data/randomTiles-cases.csv", numLinesToSkip = 1)
+    void constructor_DataDriven(int dificultat, int expectedNumTipus, int expectedTotalPieces) {
+        RandomTileGenerator gen = new RandomTileGenerator(dificultat);
 
+        assertEquals(expectedNumTipus, gen.getNumTipus(),
+                "Nombre de tipus incorrecte per dificultat " + dificultat);
+        assertEquals(expectedTotalPieces, gen.remainingPieces(),
+                "Nombre total de peces incorrecte per dificultat " + dificultat);
+    }
 
 }
