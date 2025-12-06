@@ -460,4 +460,227 @@ public class BoardTest {
     }
 
 
+    // ------------------ TESTS DE CAIXA BLANCA ------------------
+    //Constructor. Falta una branca del switch a la que mai s'accedeix
+    //Per l'if d'abans
+    @Test
+    void testBoardConstructor_InvalidDifficulty_WhiteBox() {
+        RandomTileGenerator gen = new RandomTileGenerator(1);
+
+        // dificultat 0 (just per sota del límit)
+        assertThrows(IllegalArgumentException.class,
+                () -> new Board(0, gen),
+                "La dificultat 0 ha de llençar IllegalArgumentException");
+
+        // dificultat negativa (més enllà del límit inferior)
+        assertThrows(IllegalArgumentException.class,
+                () -> new Board(-1, gen),
+                "La dificultat negativa ha de llençar IllegalArgumentException");
+
+        // dificultat 4 (just per sobre del límit)
+        assertThrows(IllegalArgumentException.class,
+                () -> new Board(4, gen),
+                "La dificultat 4 ha de llençar IllegalArgumentException");
+
+        // dificultat molt gran
+        assertThrows(IllegalArgumentException.class,
+                () -> new Board(99, gen),
+                "Una dificultat molt gran també ha de llençar IllegalArgumentException");
+    }
+
+    //tryMatch: if (tiles[x1][y1] == 0 || tiles[x2][y2] == 0) return false;
+    @Test
+    void testTryMatch_FirstIf_WhiteBox() {
+        
+        Board board = new Board(1, new RandomTileGenerator(1));
+        int[][] tiles = {
+            {0, 1, 1, 0}
+        };
+        board.setTiles(tiles);
+
+        // primera peça buida, segona no buida -> condició del primer if és TRUE
+        boolean result = board.tryMatch(0, 0, 0, 1);
+
+        assertFalse(result, "Si una de les peces és buida, tryMatch ha de retornar false");
+
+        // segona peça buida, primera no buida -> condició del primer if és TRUE
+        result = board.tryMatch(0, 1, 0, 0);
+
+        assertFalse(result, "Si una de les peces és buida, tryMatch ha de retornar false");
+
+        // dos peces buides -> condició del primer if és TRUE
+        result = board.tryMatch(0, 0, 0, 3);
+
+        assertFalse(result, "Si una de les peces és buida, tryMatch ha de retornar false");
+
+        // cap de les dues peces és 0 -> primer if és FALSE, s'ha de continuar
+        result = board.tryMatch(0, 1, 0, 2);
+
+        assertTrue(result, "Amb dues peces iguals i no buides, el primer if no ha de tallar el flux");
+    }
+
+    //tryMatch: if (x1 == x2 && y1 == y2) return false;
+    @Test
+    void testTryMatch_ThirdIf_WhiteBox() {
+        
+        Board board = new Board(1, new RandomTileGenerator(1));
+        int[][] tiles = {
+            {0, 1, 1, 0},
+            {0, 1, 1, 0}
+        };
+        board.setTiles(tiles);
+
+        // x1 == x2, y1 != y2
+        boolean result = board.tryMatch(0, 1, 0, 2);
+        assertTrue(result, "1. tryMatch ha de retornar true");
+        // x1 != x2, y1 != y2
+        int[][] tiles2 = {
+            {0, 1, 1, 0},
+            {0, 1, 1, 0}
+        };
+        board.setTiles(tiles2);
+        result = board.tryMatch(0, 1, 1, 2);
+        assertTrue(result, "2. tryMatch ha de retornar true");
+        // x1 != x2, y1 == y2
+        int[][] tiles3 = {
+            {0, 1, 1, 0},
+            {0, 1, 1, 0}
+        };
+        board.setTiles(tiles3);
+        result = board.tryMatch(0, 1, 1, 1);
+        assertTrue(result, "3. tryMatch ha de retornar true");
+        // x1 == x2, y1 == y2
+        int[][] tiles4 = {
+            {0, 1, 1, 0},
+            {0, 1, 1, 0}
+        };
+        board.setTiles(tiles4);
+        result = board.tryMatch(1, 1, 1, 1);
+        assertFalse(result, "Si és la mateixa peça, tryMatch ha de retornar false");
+    }
+
+    // tryMatch: if (!(firstFree && secondFree)) return false;
+    @Test
+    void testTryMatch_FourthIf_WhiteBox() {
+
+        Board board = new Board(1, new RandomTileGenerator(1));
+
+        // firstFree = true, secondFree = true -> true
+        int[][] tiles1 = {
+            {1, 0, 1}
+        };
+        board.setTiles(tiles1);
+        boolean result = board.tryMatch(0, 0, 0, 2);
+        assertTrue(result, "Amb dos costats lliures, tryMatch ha de retornar true");
+
+        // firstFree = false, secondFree = false -> false
+        int[][] tiles2 = {
+            {2, 1, 1, 2}
+        };
+        board.setTiles(tiles2);
+        result = board.tryMatch(0, 1, 0, 2);
+        assertFalse(result, "Sense costats lliures, tryMatch ha de retornar false");
+
+        // firstFree = false, secondFree = true -> false
+        int[][] tiles3 = {
+            {2, 1, 1, 0}
+        };
+        board.setTiles(tiles3);
+        result = board.tryMatch(0, 1, 0, 2);
+        assertFalse(result, "Si només una peça té costat lliure, tryMatch ha de retornar false");
+
+        // firstFree = true, secondFree = false -> false
+        int[][] tiles4 = {
+            {0, 1, 1, 2}
+        };
+        board.setTiles(tiles4);
+        result = board.tryMatch(0, 1, 0, 2);
+        assertFalse(result, "Si només una peça té costat lliure, tryMatch ha de retornar false");
+    }
+
+    // hasAvailableMoves: isSideFree
+    @Test
+    void testHasAvailableMoves_isSideFree_WhiteBox() {
+        Board board = new Board(1, new RandomTileGenerator(1));
+
+        // leftFree = true, rightFree = false 
+        int[][] t1 = {
+            {1, 2, 2}
+        };
+        board.setTiles(t1);
+        assertFalse(board.hasAvailableMoves(),
+                "Sense parelles amb costat lliure, no hi ha d'haver moviments disponibles (borde esquerre)");
+
+        // rightFree = true, leftFree = false 
+        int[][] t2 = {
+            {2, 2, 1}
+        };
+        board.setTiles(t2);
+        assertFalse(board.hasAvailableMoves(),
+                "Sense parelles amb costat lliure, no hi ha d'haver moviments disponibles (borde dret)");
+
+        // leftFree = true, rightFree = false 
+        int[][] t3 = {
+            {0, 1, 2}
+        };
+        board.setTiles(t3);
+        assertFalse(board.hasAvailableMoves(),
+                "Una sola peça amb costat lliure però sense parella no ha de donar moviments disponibles");
+
+        //Cas 4: rightFree = true, leftFree = false
+        int[][] t4 = {
+            {2, 1, 0}
+        };
+        board.setTiles(t4);
+        assertFalse(board.hasAvailableMoves(),
+                "Una sola peça amb costat lliure però sense parella tampoc ha de donar moviments disponibles");
+    }
+
+    // hasAvailableMoves: if (tiles[x][y] == current && isSideFree(x, y))
+    @Test
+    void testHasAvailableMoves_InnerIf_WhiteBox() {
+        Board board = new Board(1, new RandomTileGenerator(1));
+
+        //A = true, B = true -> true 
+        int[][] c1 = {
+            {1, 0},
+            {0, 1}
+        };
+        board.setTiles(c1);
+        assertTrue(board.hasAvailableMoves(),
+                "Amb dues peces iguals i costats lliures, s'ha de trobar un moviment disponible (A=true, B=true).");
+
+        // A = true, B = false -> FALSE
+        int[][] c2 = {
+            {1, 3, 4},
+            {5, 1, 6},
+            {7, 8, 9}
+        };
+        board.setTiles(c2);
+        assertFalse(board.hasAvailableMoves(),
+                "Amb una parella del mateix valor però sense costats lliures, no hi ha d'haver moviments (A=true, B=false).");
+
+        // A = false, B = true -> FALSE
+        int[][] c3 = {
+            {1, 0, 2},
+            {0, 0, 0},
+            {0, 0, 0}
+        };
+        board.setTiles(c3);
+        assertFalse(board.hasAvailableMoves(),
+                "Una peça d'un altre tipus, tot i tenir costat lliure, no ha de generar moviment (A=false, B=true).");
+
+        //A = false, B = false -> FALSE
+        int[][] c4 = {
+            {1, 2, 2},
+            {0, 0, 0},
+            {0, 0, 0}
+        };
+        board.setTiles(c4);
+        assertFalse(board.hasAvailableMoves(),
+                "Sense peces del mateix tipus i amb costats bloquejats, no hi ha d'haver moviments (A=false, B=false).");
+    }
+
 }
+
+

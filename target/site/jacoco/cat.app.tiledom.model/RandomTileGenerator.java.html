@@ -28,7 +28,7 @@ public class RandomTileGenerator {
 
     // envia una peça restant aleatòria
     public int genera() {
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (bag.isEmpty()) return 0;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (bag.isEmpty()) return 0;</span>
 <span class="fc" id="L32">        return bag.remove(bag.size() - 1);</span>
     }
 
@@ -44,8 +44,8 @@ public class RandomTileGenerator {
 <span class="fc bfc" id="L44" title="All 2 branches covered.">        if (base % 2 != 0) {</span>
 <span class="fc" id="L45">            base--;                         // assegurem que és parell</span>
         }
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (base &lt; 2) {</span>
-<span class="nc" id="L48">            base = 2;                       // com a mínim 2 peces per tipus</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (base &lt; 2) {</span>
+<span class="fc" id="L48">            base = 2;                       // com a mínim 2 peces per tipus</span>
         }
 <span class="fc" id="L50">        int assigned = 0;</span>
 
@@ -77,7 +77,7 @@ public class RandomTileGenerator {
 <span class="fc" id="L77">            int i = rand.nextInt(numTipus) + 1;</span>
 <span class="fc" id="L78">            pieces[i] += 2;</span>
 <span class="fc" id="L79">            assigned += 2;</span>
-        }
+<span class="fc" id="L80">        }</span>
 
         // omplim la bossa de peces 
 <span class="fc bfc" id="L83" title="All 2 branches covered.">        for (int i = 1; i &lt;= numTipus; i++) {</span>

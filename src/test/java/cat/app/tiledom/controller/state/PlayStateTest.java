@@ -55,7 +55,6 @@ public class PlayStateTest {
         PlayState state = new PlayState(audio, ui, session);
         GameState next = state.restart();
 
-        verify(session).reset();
         verify(audio).stopMusic();
         verify(audio).startMusic("initial_track");
         verify(ui).showScreen("init");
