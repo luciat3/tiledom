@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="cat.app.tiledom.model.BoardTest" time="0.053" tests="15" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="cat.app.tiledom.controller.state.ConfigureStateTest" time="0.273" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,19 +59,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testBoardConnected" classname="cat.app.tiledom.model.BoardTest" time="0.0"/>
-  <testcase name="testTryMatch_FirstIf_WhiteBox" classname="cat.app.tiledom.model.BoardTest" time="0.003"/>
-  <testcase name="testTryMatch" classname="cat.app.tiledom.model.BoardTest" time="0.004"/>
-  <testcase name="testBoardHasEvenTiles" classname="cat.app.tiledom.model.BoardTest" time="0.003"/>
-  <testcase name="testHasAvailableMoves_InnerIf_WhiteBox" classname="cat.app.tiledom.model.BoardTest" time="0.002"/>
-  <testcase name="testHasAvailableMoves_isSideFree_WhiteBox" classname="cat.app.tiledom.model.BoardTest" time="0.001"/>
-  <testcase name="testTryMatchPairwise" classname="cat.app.tiledom.model.BoardTest" time="0.001"/>
-  <testcase name="testBoardSizeIsCorrect" classname="cat.app.tiledom.model.BoardTest" time="0.0"/>
-  <testcase name="testTryMatch_ThirdIf_WhiteBox" classname="cat.app.tiledom.model.BoardTest" time="0.0"/>
-  <testcase name="testBoardConstructor_InvalidDifficulty_WhiteBox" classname="cat.app.tiledom.model.BoardTest" time="0.0"/>
-  <testcase name="testTryMatchFailsWhenSameTileSelected" classname="cat.app.tiledom.model.BoardTest" time="0.006"/>
-  <testcase name="testHasAvailableMoves" classname="cat.app.tiledom.model.BoardTest" time="0.0"/>
-  <testcase name="testIsEmpty" classname="cat.app.tiledom.model.BoardTest" time="0.002"/>
-  <testcase name="testTryMatch_FourthIf_WhiteBox" classname="cat.app.tiledom.model.BoardTest" time="0.0"/>
-  <testcase name="testDefaultConstructor" classname="cat.app.tiledom.model.BoardTest" time="0.002"/>
+  <testcase name="exit_ReturnsSameInstance" classname="cat.app.tiledom.controller.state.ConfigureStateTest" time="0.246"/>
+  <testcase name="configure_ReturnsSameInstance" classname="cat.app.tiledom.controller.state.ConfigureStateTest" time="0.004"/>
+  <testcase name="start_ReturnsSameInstance" classname="cat.app.tiledom.controller.state.ConfigureStateTest" time="0.003"/>
+  <testcase name="resume_ShowsPlayingScreenAndReturnsPlayState" classname="cat.app.tiledom.controller.state.ConfigureStateTest" time="0.0"/>
+  <testcase name="restart_ReturnsSameInstance" classname="cat.app.tiledom.controller.state.ConfigureStateTest" time="0.009"/>
+  <testcase name="pause_ReturnsSameInstance" classname="cat.app.tiledom.controller.state.ConfigureStateTest" time="0.003"/>
 </testsuite>

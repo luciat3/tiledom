@@ -17,34 +17,34 @@ public class ConfigureState implements GameState {
 
     @Override
     public GameState start() {
-<span class="nc" id="L20">        return this;</span>
+<span class="fc" id="L20">        return this;</span>
     }
 
     @Override
     public GameState resume() {
-<span class="nc" id="L25">        _ui.showScreen(&quot;playing&quot;);</span>
-<span class="nc" id="L26">        _audio.startMusic(&quot;play_track&quot;);</span>
-<span class="nc" id="L27">        return new PlayState(_audio, _ui, _game_session);</span>
+<span class="fc" id="L25">        _ui.showScreen(&quot;playing&quot;);</span>
+<span class="fc" id="L26">        _audio.startMusic(&quot;play_track&quot;);</span>
+<span class="fc" id="L27">        return new PlayState(_audio, _ui, _game_session);</span>
     }
 
     @Override
     public GameState restart() {
-<span class="nc" id="L32">        return this;</span>
+<span class="fc" id="L32">        return this;</span>
     }
 
     @Override
     public GameState pause() {
-<span class="nc" id="L37">        return this;</span>
+<span class="fc" id="L37">        return this;</span>
     }
 
     @Override
     public GameState configure() {
-<span class="nc" id="L42">        return this;</span>
+<span class="fc" id="L42">        return this;</span>
     }
 
     @Override
     public GameState exit() {
-<span class="nc" id="L47">        return this;</span>
+<span class="fc" id="L47">        return this;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

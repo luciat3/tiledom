@@ -17,34 +17,34 @@ public class PauseState implements GameState {
 
     @Override
     public GameState configure() {
-<span class="nc" id="L20">        return this;</span>
+<span class="fc" id="L20">        return this;</span>
     }
 
     @Override
     public GameState exit() {
-<span class="nc" id="L25">        return this;</span>
+<span class="fc" id="L25">        return this;</span>
     }
 
     @Override
     public GameState pause() {
-<span class="nc" id="L30">        return this;</span>
+<span class="fc" id="L30">        return this;</span>
     }
 
     @Override
     public GameState restart() {
-<span class="nc" id="L35">        return this;</span>
+<span class="fc" id="L35">        return this;</span>
     }
 
     @Override
     public GameState resume() {
-<span class="nc" id="L40">        _ui.showScreen(&quot;playing&quot;);</span>
-<span class="nc" id="L41">        _audio.startMusic(&quot;play_track&quot;);</span>
-<span class="nc" id="L42">        return new PlayState(_audio, _ui, _game_session);</span>
+<span class="fc" id="L40">        _ui.showScreen(&quot;playing&quot;);</span>
+<span class="fc" id="L41">        _audio.startMusic(&quot;play_track&quot;);</span>
+<span class="fc" id="L42">        return new PlayState(_audio, _ui, _game_session);</span>
     }
 
     @Override
     public GameState start() {
-<span class="nc" id="L47">        return this;</span>
+<span class="fc" id="L47">        return this;</span>
     }
 
 }
